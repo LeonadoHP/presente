@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cartão com Selinhos 💕</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>❤️</text></svg>">
+  <style>
+    body {
+      font-family: "Comic Sans MS", "Segoe UI", sans-serif;
+      background: #111;
+      color: #eee;
+      text-align: center;
+      padding: 30px 20px;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #ff1493;
+      text-shadow: 0 0 5px #ff69b4;
+    }
+    .cartao {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      grid-gap: 12px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .selo {
+      cursor: pointer;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      border: 3px solid #ff69b4;
+      font-weight: bold;
+      font-size: 18px;
+      color: #ff1493;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      transition: background-color 0.4s, color 0.4s;
+      background: #222;
+      box-shadow: 0 0 8px #ff1493;
+    }
+    .selo.marcado {
+      background: #ff69b4;
+      color: #111;
+      box-shadow: 0 0 15px #ff1493;
+    }
+    button.reset {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #ff1493;
+      color: #111;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #ff1493;
+      transition: background-color 0.3s;
+      margin-bottom: 20px;
+    }
+    button.reset:hover {
+      background-color: #ff69b4;
+    }
+    #containerImagem {
+      width: 80vw;
+      max-width: 600px;
+      height: 0;
+      margin: 0 auto 30px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+      transition: height 1.2s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+    #imagemFundo {
+      width: 100%;
+      display: block;
+    }
+    footer {
+      color: #ff69b4;
+      font-size: 14px;
+      margin-top: 10px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Selinhos de Uberdrive 💕</h1>
+  <div class="cartao" id="cartao"></div>
+  <button class="reset" onclick="resetar()">Resetar tudo</button>
+
+  <div id="containerImagem">
+    <img
+      src="https://i.pinimg.com/736x/40/85/f5/4085f54d4add7fdd92504625fb3f8423.jpg"
+      id="imagemFundo"
+      alt="Imagem de Fundo"
+    />
+  </div>
+
+  <footer>Feito com amor 💌</footer>
+
+  <script>
+    // Bloqueio para app ou abertura local
+    window.onload = function () {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
+      const isBrowser = /chrome|safari|firefox|edg|opera/i.test(userAgent);
+      const isInApp = /FBAN|FBAV|Instagram|Line|MicroMessenger|Snapchat|TikTok|Twitter/i.test(userAgent);
+      const isLocalFile = location.protocol === "file:";
+
+      if (!isMobile || !isBrowser || isInApp || isLocalFile) {
+        window.location.href = "https://www.google.com";
+      }
+    };
+
+    // Senhas e elementos
+    const senhas = [
+      "voceelindo",
+      "boitee",
+      "milbeijos",
+      "teamomtmt",
+      "leaozinho",
+      "meuciumento",
+      "leozinho",
+      "nosprasempre"
+    ];
+    const senhaReset = "seraquevaimecharmardemarido?";
+    const letras = ["e", "u", "t", "e", "a", "m", "o", "!"];
+
+    const cartao = document.getElementById("cartao");
+    const containerImagem = document.getElementById("containerImagem");
+    const imagemFundo = document.getElementById("imagemFundo");
+
+    // Cria os selos
+    for (let i = 0; i < 8; i++) {
+      const div = document.createElement("div");
+      div.classList.add("selo");
+      div.textContent = "";
+      div.dataset.index = i;
+      div.addEventListener("click", () => tentarMarcar(div, i));
+      cartao.appendChild(div);
+    }
+
+    function tentarMarcar(div, index) {
+      if (div.classList.contains("marcado")) return;
+
+      const senhaUsuario = prompt("Digite a senha para marcar este selo:");
+      if (senhaUsuario === senhas[index]) {
+        div.classList.add("marcado");
+        div.textContent = letras[index];
+        atualizarImagem();
+      } else {
+        alert("Senha incorreta, tente novamente.");
+      }
+    }
+
+    function resetar() {
+      const senhaUsuario = prompt("Tá de safadagem, né?? Só reseta se eu der a senha!!");
+      if (senhaUsuario === senhaReset) {
+        document.querySelectorAll(".selo.marcado").forEach((el) => {
+          el.classList.remove("marcado");
+          el.textContent = "";
+        });
+        atualizarImagem();
+      } else {
+        alert("Senha incorreta, não foi possível resetar.");
+      }
+    }
+
+    function atualizarImagem() {
+      const selosMarcados = document.querySelectorAll(".selo.marcado").length;
+      const totalSelos = 8;
+
+      const alturaMax = imagemFundo.naturalHeight * (containerImagem.clientWidth / imagemFundo.naturalWidth);
+      const alturaVisivel = (alturaMax * selosMarcados) / totalSelos;
+
+      containerImagem.style.height = alturaVisivel + "px";
+    }
+
+    imagemFundo.onload = () => atualizarImagem();
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".selo").forEach((div) => {
+        div.classList.remove("marcado");
+        div.textContent = "";
+      });
+      atualizarImagem();
+    });
+  </script>
+</body>
+</html>
